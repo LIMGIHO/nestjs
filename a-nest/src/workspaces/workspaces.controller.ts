@@ -1,9 +1,21 @@
-import { Controller, Delete, Get, Post } from '@nestjs/common';
+import { Controller, Delete, Get, Param, ParseIntPipe, Post } from '@nestjs/common';
+import { WorkspacesService } from './workspaces.service';
+import { User } from 'src/common/decorators/user.decorator';
+import { Users } from 'src/entities/Users';
 
 @Controller('api/workspaces')
 export class WorkspacesController {
+
+  constructor(
+    private workspacesService: WorkspacesService
+  ) {
+
+  }
+
   @Get()
-  getMyWorkspace() {}
+  getMyWorkspace(@User() user: Users) {
+    return this.workspacesService.findMyWorspaces(user.id);
+  }
 
   @Post()
   createWorkspace() {}
